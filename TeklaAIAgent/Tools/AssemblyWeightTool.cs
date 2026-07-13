@@ -8,6 +8,10 @@ using TSMUI = Tekla.Structures.Model.UI;
 
 namespace TeklaAIAgent.Tools;
 
+/// <summary>
+/// Työkalu 1: Listaa käyttäjän Tekla-mallista valitsemien kokoonpanojen
+/// (assembly) painot.
+/// </summary>
 public class AssemblyWeightTool : ITeklaTool
 {
     public IEnumerable<AITool> GetFunctions()
@@ -44,7 +48,7 @@ public class AssemblyWeightTool : ITeklaTool
                     double weight = GetAssemblyWeightKg(assembly);
                     string label = GetAssemblyLabel(assembly);
 
-                    report.AppendLine($"- {label}: {weight:F1} kg");
+                    report.AppendLine($"- {label}: {weight:F0} kg");
                     totalWeight += weight;
                     assemblyCount++;
                 }
@@ -59,7 +63,7 @@ public class AssemblyWeightTool : ITeklaTool
 
             report.AppendLine();
             report.AppendLine($"Yhteensä {assemblyCount} kokoonpanoa, " +
-                               $"kokonaispaino {totalWeight:F1} kg.");
+                               $"kokonaispaino {totalWeight:F0} kg.");
             return report.ToString();
         });
     }
@@ -90,11 +94,16 @@ public class AssemblyWeightTool : ITeklaTool
 
     private static string GetAssemblyLabel(Assembly assembly)
     {
-        if (assembly.GetMainPart() is Part mainPart && !string.IsNullOrWhiteSpace(mainPart.Name))
+        string name = string.IsNullOrWhiteSpace(assembly.Name) ? "Kokoonpano" : assembly.Name;
+
+        string position = "";
+        assembly.GetReportProperty("ASSEMBLY_POS", ref position);
+
+        if (string.IsNullOrWhiteSpace(position))
         {
-            return $"{mainPart.Name} (assembly #{assembly.Identifier.ID})";
+            return $"{name} (#{assembly.Identifier.ID})";
         }
 
-        return $"Assembly #{assembly.Identifier.ID}";
+        return $"{name} {position}";
     }
 }
