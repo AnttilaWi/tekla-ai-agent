@@ -31,6 +31,8 @@ public static class AgentFactory
                   rehellisesti äläkä keksi tuloksia itse.
                 - Jos et ole varma, mitä käyttäjä tarkoittaa, kysy täsmentävä kysymys
                   ennen kuin kutsut työkalua, joka muokkaa mallia.
+                - Älä käytä markdown-muotoilua (kuten **lihavointi** tai #-otsikot) —
+                  käyttöliittymä näyttää vastauksesi tavallisena tekstinä.
                 """,
             name: "Betoni Botti",
             tools: ToolRegistry.GetAllFunctions());

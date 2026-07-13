@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Agents.AI;
 using TeklaAIAgent.AgentSetup;
+using System.Text.RegularExpressions;
 
 namespace TeklaAIAgent;
 
@@ -74,7 +75,7 @@ public partial class MainWindow : Window
             _session ??= await _agent.CreateSessionAsync();
 
             var response = await _agent.RunAsync(message, _session);
-            AppendToChat("Betoni Botti", response.Text, isUser: false);
+            AppendToChat("Betoni Botti", StripMarkdownBold(response.Text), isUser: false);
         }
         catch (Exception ex)
         {
@@ -92,5 +93,12 @@ public partial class MainWindow : Window
     {
         _messages.Add(new ChatMessage { Sender = sender, Text = text, IsUser = isUser });
         Dispatcher.InvokeAsync(() => ChatScrollViewer.ScrollToEnd(), DispatcherPriority.Background);
+    }
+
+    private static string StripMarkdownBold(string text)
+    {
+        // Poistaa **lihavoinnin** merkit, koska keskusteluikkuna näyttää tekstin
+        // sellaisenaan eikä tulkitse markdownia.
+        return Regex.Replace(text, @"\*\*(.*?)\*\*", "$1");
     }
 }
