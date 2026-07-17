@@ -26,7 +26,7 @@ Azure OpenAI  ⇄  Microsoft Agent Framework  ⇄  Tekla Open API
 ```
 
 - **Agent Framework** turns a plain chat connection into an agent that can call tools, decide *when* to call them, and chain several together to satisfy one request.
-- **Tools are plugins.** Every capability implements one small interface (`ITeklaTool`), and a single registry collects them for the agent. Adding a new capability means adding one file and one line — nothing else in the app has to change.
+- **Tools are plugins.** Every capability implements one small interface (`ITeklaTool`), and the registry discovers them automatically via reflection. Adding a new capability means adding one file — nothing else in the app has to change.
 
 ## Tech stack
 
@@ -43,6 +43,8 @@ C# · .NET Framework 4.8 · WPF · Microsoft Agent Framework · Azure OpenAI · 
 <summary><strong>Notes from the build</strong> (click to expand)</summary>
 
 Tekla Open API's newest tooling (`TSAppConfigPatcherTask`) turned out to only work with .NET Framework — the assembly-binding redirects it generates simply aren't read by .NET 8's runtime. The project was originally scaffolded on .NET 8 and migrated to .NET Framework 4.8 mid-build once that became clear; both `Microsoft.Agents.AI` and `Azure.AI.OpenAI` target .NET Framework 4.7.2+, so nothing on the AI side had to change.
+
+Adding a second capability that needed to stay out of the public repo (business-specific, not meant for publication) led to a small refactor: the tool registry now discovers `ITeklaTool` implementations via reflection instead of listing them explicitly, so the public codebase never has to reference a class it doesn't contain.
 
 </details>
 
