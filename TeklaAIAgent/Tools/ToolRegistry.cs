@@ -1,30 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Microsoft.Extensions.AI;
 
 namespace TeklaAIAgent.Tools;
 
 /// <summary>
-/// Kerää kaikki ITeklaTool-toteutukset yhdeksi listaksi, jonka AgentFactory
-/// antaa agentille käyttöön.
+/// Kokoaa automaattisesti kaikki ITeklaTool-rajapinnan toteuttavat luokat
+/// (mukaan lukien Tools/Private-kansiossa mahdollisesti olevat, gitignoretut
+/// työkalut) yhdeksi listaksi agentille. Uuden työkalun lisääminen ei enää
+/// vaadi mitään muutosta tähän tiedostoon — riittää, että luokka toteuttaa
+/// ITeklaTool-rajapinnan jossain päin Tools-kansiota.
 /// </summary>
 public static class ToolRegistry
 {
-    // <-- LISÄÄ UUDET TYÖKALUT TÄHÄN LISTAAN -->
-    private static readonly ITeklaTool[] AllTools =
-    [
-        new AssemblyWeightTool(),
-        new CreateBeamTool(),
-        new SelectObjectsTool(),
-        // new OmaUusiTyokalusi(),   <-- esimerkki siitä, miten seuraava työkalu lisätään
-    ];
-
     public static IList<AITool> GetAllFunctions()
     {
+        var toolTypes = Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => typeof(ITeklaTool).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
         var all = new List<AITool>();
-        foreach (var tool in AllTools)
+        foreach (var type in toolTypes)
         {
-            all.AddRange(tool.GetFunctions());
+            if (Activator.CreateInstance(type) is ITeklaTool tool)
+            {
+                all.AddRange(tool.GetFunctions());
+            }
         }
+
         return all;
     }
 }
