@@ -14,6 +14,7 @@ public static class ToolRegistry
     [
         new AssemblyWeightTool(),
         new CreateBeamTool(),
+        new SelectObjectsTool(),
         // new OmaUusiTyokalusi(),   <-- esimerkki siitä, miten seuraava työkalu lisätään
     ];
 

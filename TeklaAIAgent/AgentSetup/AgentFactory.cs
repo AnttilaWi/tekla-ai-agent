@@ -33,6 +33,9 @@ public static class AgentFactory
                   ennen kuin kutsut työkalua, joka muokkaa mallia.
                 - Älä käytä markdown-muotoilua (kuten **lihavointi** tai #-otsikot) —
                   käyttöliittymä näyttää vastauksesi tavallisena tekstinä.
+                - Kerroksia varten ei ole omaa kenttää. Jos käyttäjä pyytää
+                  kerroksen mukaan, kysy tarkat Z-korkeudet millimetreinä ja
+                  käytä minElevation/maxElevation-parametreja.
                 """,
             name: "Betoni Botti",
             tools: ToolRegistry.GetAllFunctions());
