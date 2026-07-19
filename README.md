@@ -48,6 +48,17 @@ Adding a second capability that needed to stay out of the public repo (business-
 
 </details>
 
+## Relation to Tekla Model Assistant
+
+In 2026, Trimble introduced its own agentic AI tool for Tekla Structures — [Tekla Model Assistant](https://support.tekla.com/cs/doc/tekla-structures/2026/mod_tekla_model_assistant) (Preview, available with Diamond/Graphite/Carbon subscriptions). Betoni Botti was designed and built independently during the same period, arriving at the same core concept: an LLM agent that reads the live model and chains multiple tools together to complete natural-language requests.
+
+Where this project differs:
+
+- **Open implementation** — the full agent architecture (Microsoft Agent Framework + Azure OpenAI + tool calling) is visible in this repository, not a black box inside the application.
+- **Bring your own model** — runs on your own Azure OpenAI resource with full cost visibility, rather than a built-in, subscription-tier-gated assistant.
+- **Built to grow into real engineering tasks** — the plugin architecture is designed to extend beyond generic modeling operations toward automating actual design calculations, not just object creation and editing.
+- **Extensible by design** — new tools are added by dropping in one file; the agent discovers them automatically, with no changes required elsewhere in the codebase.
+
 ## What's next
 
 More tools, following the same plugin pattern — a couple are domain-specific enough that I'm keeping them in a private folder for now.
