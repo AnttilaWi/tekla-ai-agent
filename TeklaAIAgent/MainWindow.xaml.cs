@@ -27,9 +27,9 @@ public partial class MainWindow : Window
         _agent = AgentFactory.CreateTeklaAgent(settings);
 
         AppendToChat("Betoni Botti",
-            "Hei! Olen valmis auttamaan Tekla-mallin kanssa. Kokeile esimerkiksi:\n" +
-            "• \"Listaa valittujen kokoonpanojen painot\"\n" +
-            "• \"Luo palkki pisteestä 0,0,0 pisteeseen 5000,0,0\"", isUser: false);
+            "Hei! Olen valmis auttamaan Tekla-mallin kanssa. Jos et vielä tiedä " +
+            "mitä kaikkea voin tehdä, voin tarvittaessa tiiviisti listata " +
+            "käytettävissä olevat työkalut.", isUser: false);
     }
 
     private static AzureOpenAiSettings LoadSettings()

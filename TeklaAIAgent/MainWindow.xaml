@@ -42,7 +42,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="12,8"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
@@ -136,9 +136,12 @@
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="UserInputBox" Grid.Column="0" Style="{StaticResource ChatInputStyle}"
-                     VerticalAlignment="Center" KeyDown="UserInputBox_KeyDown"/>
+             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+             TextWrapping="Wrap" AcceptsReturn="False"
+             MinHeight="36" MaxHeight="120" VerticalScrollBarVisibility="Auto"
+             KeyDown="UserInputBox_KeyDown"/>
             <Button x:Name="SendButton" Grid.Column="1" Content="Lähetä" Width="80" Height="36"
-                    Margin="8,0,0,0" Style="{StaticResource SendButtonStyle}" Click="SendButton_Click"/>
+                    Margin="8,0,0,0" VerticalAlignment="Bottom" Style="{StaticResource SendButtonStyle}" Click="SendButton_Click"/>
         </Grid>
     </Grid>
 </Window>
